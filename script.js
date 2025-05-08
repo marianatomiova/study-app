@@ -6,8 +6,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const dateInput = document.getElementById("date");
     const clearHistoryButton = document.getElementById("clear-history");
 
+    const backendURL = "https://study-app-sk4w.onrender.com"; // URL tvojho backendu
+
     function loadActivities() {
-        fetch("/activities")
+        fetch(`${backendURL}/activities`)
             .then(response => response.json())
             .then(data => {
                 activitiesContainer.innerHTML = ""; // Clear the container
@@ -43,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const date = dateInput.value;
 
         if (topic && study_time && date) {
-            fetch("/activities", {
+            fetch(`${backendURL}/activities`, {
                 method: "POST",
                 body: JSON.stringify({ topic, study_time, date }),
                 headers: { "Content-Type": "application/json" }
@@ -65,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     window.deleteActivity = (id) => {
-        fetch(`/activities/${id}`, {
+        fetch(`${backendURL}/activities/${id}`, {
             method: "DELETE",
             headers: { "Content-Type": "application/json" }
         })
@@ -83,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
             clearHistoryButton.disabled = true;
             clearHistoryButton.textContent = "Vymazávam...";
 
-            fetch("/activities", {
+            fetch(`${backendURL}/activities`, {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" }
             })
@@ -132,10 +134,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const output = document.getElementById("recommendation-output");
 
     recommendButton.addEventListener("click", () => {
-        fetch("/activities")
+        fetch(`${backendURL}/activities`)
             .then(res => res.json())
             .then(data => {
-                return fetch("/recommend", {
+                return fetch(`${backendURL}/recommend`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ activities: data })
