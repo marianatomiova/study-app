@@ -21,7 +21,7 @@ services:
     container_name: flask_counter_app
     restart: always
     ports:
-      - "8000:5000"  
+      - "5004:5004"  
     depends_on:
       - db
     environment:
